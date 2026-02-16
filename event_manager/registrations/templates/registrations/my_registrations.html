@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}My Registrations | Eventify{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto py-12 px-4">
+    <h1 class="font-display text-3xl font-bold text-slate-900 mb-8">My Event Registrations</h1>
+    {% if registrations %}
+        <ul class="space-y-4">
+            {% for reg in registrations %}
+            <li class="bg-white border border-slate-200 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+                <div>
+                    <h2 class="font-display text-lg font-bold text-slate-900 mb-1">{{ reg.event.title }}</h2>
+                    <div class="text-slate-500 text-sm mb-1">{{ reg.event.location }} | {{ reg.event.startTime|date:"M d, Y H:i" }}</div>
+                    <span class="text-xs px-3 py-1 rounded-full font-semibold {% if reg.status == 'approved' %}bg-green-100 text-green-700{% elif reg.status == 'pending' %}bg-yellow-100 text-yellow-700{% elif reg.status == 'rejected' %}bg-red-100 text-red-700{% else %}bg-slate-100 text-slate-700{% endif %}">{{ reg.status|title }}</span>
+                </div>
+                <form method="post" action="/unregister/{{ reg.event.id }}/">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-500 hover:underline ml-4">Unregister</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-slate-500">You haven't registered for any events yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

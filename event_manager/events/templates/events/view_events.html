@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Events | Eventify{% endblock %}
+{% block content %}
+<section class="max-w-5xl mx-auto py-12 px-4">
+    <div class="mb-10 flex items-center justify-between">
+        <h1 class="font-display text-3xl font-bold text-slate-900">All Events</h1>
+        {% if request.user.is_authenticated and request.user.role == 'organizer' %}
+            <a href="/events/create/" class="text-indigo-600 hover:text-indigo-800 font-semibold">+ Create Event</a>
+        {% endif %}
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+        {% for event in events %}
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+            <h2 class="font-display text-xl font-bold text-slate-900 mb-2">{{ event.title }}</h2>
+            <p class="text-slate-600 mb-2">{{ event.description|truncatechars:120 }}</p>
+            <div class="flex items-center gap-4 text-sm text-slate-500 mb-2">
+                <span><i data-lucide="map-pin" class="w-4 h-4 inline"></i> {{ event.location }}</span>
+                <span><i data-lucide="clock" class="w-4 h-4 inline"></i> {{ event.startTime|date:"M d, Y H:i" }}</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs text-slate-400 mb-4">
+                <span>Capacity: {{ event.capacity|default:'Unlimited' }}</span>
+                <span>Status: {{ event.status|title }}</span>
+            </div>
+            <div class="flex gap-3">
+                {% if request.user.is_authenticated and request.user.role == 'organizer' and event.organizer == request.user %}
+                    <a href="/events/{{ event.id }}/edit/" class="text-indigo-600 hover:underline">Edit</a>
+                    <a href="/events/{{ event.id }}/delete/" class="text-red-500 hover:underline">Delete</a>
+                {% endif %}
+                {% if request.user.is_authenticated and request.user.role == 'participant' %}
+                    <a href="/register/{{ event.id }}/" class="text-green-600 hover:underline">Register</a>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-slate-500">No events found.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

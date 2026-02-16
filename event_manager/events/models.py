@@ -8,8 +8,8 @@ class Event(models.Model):
     STATUS_CHOICES = (
         ("draft", "Draft"),
         ("published", "Published"),
-        ("completed", "Completed"),
         ("cancelled", "Cancelled"),
+        ("expired", "Expired")
     )
 
     title = models.CharField(max_length=200)
