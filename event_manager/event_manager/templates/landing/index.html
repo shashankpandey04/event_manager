@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+
+{% block title %}Eventify | Premium Event Management Platform{% endblock %}
+
+{% block content %}
+
+<section class="relative min-h-[90vh] flex items-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-indigo-50/30 to-purple-50/30"></div>
+    <div class="absolute top-20 right-10 w-72 h-72 bg-indigo-400/20 rounded-full blur-3xl blob"></div>
+    <div class="absolute bottom-20 left-10 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl blob" style="animation-delay: -4s;"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-indigo-200/20 to-purple-200/20 rounded-full blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-10">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div class="text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-medium mb-8 shine">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span>100% Free for Everyone</span>
+                </div>
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-slate-900 leading-[1.1] tracking-tight">
+                    All event features
+                    <span class="text-gradient">completely free</span>
+                    forever
+                </h1>
+                <p class="mt-6 text-lg lg:text-xl text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    Create, manage, and analyze events with no limits. No pricing, no paywalls, no hidden fees; just powerful tools for every organizer.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    {% if user.is_authenticated %}
+                        <a href="/dashboard/" class="btn-premium px-8 py-4 rounded-2xl text-white font-semibold text-lg inline-flex items-center justify-center gap-2">
+                            Go to Dashboard
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    {% else %}
+                        <a href="/auth/register/" class="btn-premium px-8 py-4 rounded-2xl text-white font-semibold text-lg inline-flex items-center justify-center gap-2">
+                            Get Started Free
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="/auth/login/" class="px-8 py-4 rounded-2xl bg-white border-2 border-slate-200 text-slate-700 font-semibold text-lg hover:border-slate-300 hover:bg-slate-50 transition-all inline-flex items-center justify-center gap-2">
+                            <i data-lucide="play-circle" class="w-5 h-5"></i>
+                            Watch Demo
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-8 text-slate-500">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                        <span class="text-sm font-medium">Unlimited events & registrations</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                        <span class="text-sm font-medium">All features unlocked</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+                        <span class="text-sm font-medium">No ads, no fees, no catch</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border border-slate-200/50 glow float">
+                    <div class="bg-slate-800 px-4 py-3 flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                    </div>
+                    <div class="bg-white p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <p class="text-sm text-slate-500">Welcome back</p>
+                                <h3 class="text-xl font-bold text-slate-900">Dashboard</h3>
+                            </div>
+                            <div class="w-10 h-10 rounded-full animated-gradient"></div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 mb-6">
+                            <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-4 text-white">
+                                <p class="text-xs opacity-80">Total Events</p>
+                                <p class="text-2xl font-bold">24</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-4 text-white">
+                                <p class="text-xs opacity-80">Registrations</p>
+                                <p class="text-2xl font-bold">1,847</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-4 text-white">
+                                <p class="text-xs opacity-80">Attendance</p>
+                                <p class="text-2xl font-bold">94%</p>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+                                        <i data-lucide="calendar" class="w-5 h-5 text-indigo-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-slate-900 text-sm">Tech Conference 2026</p>
+                                        <p class="text-xs text-slate-500">Mar 15 • 450 registrations</p>
+                                    </div>
+                                </div>
+                                <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-lg">Active</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
+                                        <i data-lucide="music" class="w-5 h-5 text-purple-600"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-slate-900 text-sm">Music Festival</p>
+                                        <p class="text-xs text-slate-500">Apr 20 • 1,200 registrations</p>
+                                    </div>
+                                </div>
+                                <span class="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-lg">Upcoming</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-16 border-y border-slate-200 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <p class="text-center text-sm font-medium text-slate-500 mb-10">TRUSTED BY TEAMS AT LEADING ORGANIZATIONS</p>
+        <div class="flex flex-wrap justify-center items-center gap-x-16 gap-y-8 opacity-60 grayscale">
+            <div class="text-2xl font-bold text-slate-400">Google</div>
+            <div class="text-2xl font-bold text-slate-400">Microsoft</div>
+            <div class="text-2xl font-bold text-slate-400">Amazon</div>
+            <div class="text-2xl font-bold text-slate-400">Spotify</div>
+            <div class="text-2xl font-bold text-slate-400">Airbnb</div>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="py-24 lg:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-20">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium mb-6">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Powerful Features</span>
+            </div>
+            <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+                Everything you need to run
+                <span class="text-gradient">world-class events</span>
+            </h2>
+            <p class="text-lg text-slate-600">
+                From intimate workshops to massive conferences, Eventify scales with your ambitions.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 card-hover">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="calendar-plus" class="w-7 h-7 text-white"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-slate-900 mb-3">Smart Event Creation</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Create beautiful event pages in minutes with our intuitive builder. Customize everything from tickets to landing pages.
+                </p>
+            </div>
+            <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 card-hover">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="qr-code" class="w-7 h-7 text-white"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-slate-900 mb-3">QR Check-ins</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Contactless attendance tracking with instant QR code scanning. No more long queues or paper lists.
+                </p>
+            </div>
+            <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 card-hover">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="bar-chart-3" class="w-7 h-7 text-white"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-slate-900 mb-3">Real-time Analytics</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Track registrations, attendance rates, and engagement metrics with beautiful, actionable dashboards.
+                </p>
+            </div>
+            <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 card-hover">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="mail" class="w-7 h-7 text-white"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-slate-900 mb-3">Automated Emails</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Send beautiful confirmation emails, reminders, and updates automatically. Keep attendees informed.
+                </p>
+            </div>
+            <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 card-hover">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="users" class="w-7 h-7 text-white"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-slate-900 mb-3">Team Collaboration</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Invite organizers, volunteers, and staff with role-based permissions. Everyone stays in sync.
+                </p>
+            </div>
+            <div class="group p-8 rounded-3xl bg-slate-50 border border-slate-100 card-hover">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <i data-lucide="palette" class="w-7 h-7 text-white"></i>
+                </div>
+                <h3 class="font-display text-xl font-bold text-slate-900 mb-3">Custom Branding</h3>
+                <p class="text-slate-600 leading-relaxed">
+                    Make every touchpoint yours. Add your logo, colors, and custom domain for a seamless brand experience.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-20 animated-gradient">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+            <div class="text-center">
+                <p class="font-display text-4xl lg:text-5xl font-bold text-white mb-2">50K+</p>
+                <p class="text-white/80 font-medium">Events Created</p>
+            </div>
+            <div class="text-center">
+                <p class="font-display text-4xl lg:text-5xl font-bold text-white mb-2">2M+</p>
+                <p class="text-white/80 font-medium">Registrations</p>
+            </div>
+            <div class="text-center">
+                <p class="font-display text-4xl lg:text-5xl font-bold text-white mb-2">99.9%</p>
+                <p class="text-white/80 font-medium">Uptime</p>
+            </div>
+            <div class="text-center">
+                <p class="font-display text-4xl lg:text-5xl font-bold text-white mb-2">4.9/5</p>
+                <p class="text-white/80 font-medium">User Rating</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="testimonials" class="py-24 lg:py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 text-sm font-medium mb-6">
+                <i data-lucide="heart" class="w-4 h-4"></i>
+                <span>Loved by Organizers</span>
+            </div>
+            <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
+                What our customers say
+            </h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-slate-50 rounded-3xl p-8 card-hover">
+                <div class="flex items-center gap-1 mb-6">
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                </div>
+                <p class="text-slate-700 leading-relaxed mb-8">
+                    "Eventify transformed how we run our annual tech conference. The QR check-in feature alone saved us hours. Absolutely brilliant!"
+                </p>
+                <div class="flex items-center gap-4">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-12 h-12 rounded-full object-cover">
+                    <div>
+                        <p class="font-semibold text-slate-900">Amit Sharma</p>
+                        <p class="text-sm text-slate-500">TechFest India Organizer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 rounded-3xl p-8 card-hover">
+                <div class="flex items-center gap-1 mb-6">
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                </div>
+                <p class="text-slate-700 leading-relaxed mb-8">
+                    "The analytics dashboard is incredible. We finally have real-time insights into our event performance. A game-changer for our team."
+                </p>
+                <div class="flex items-center gap-4">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="w-12 h-12 rounded-full object-cover">
+                    <div>
+                        <p class="font-semibold text-slate-900">Priya Desai</p>
+                        <p class="text-sm text-slate-500">Conference Director</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-slate-50 rounded-3xl p-8 card-hover">
+                <div class="flex items-center gap-1 mb-6">
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                </div>
+                <p class="text-slate-700 leading-relaxed mb-8">
+                    "We switched from three different tools to just Eventify. It handles everything beautifully. Best decision we made this year!"
+                </p>
+                <div class="flex items-center gap-4">
+                    <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="User" class="w-12 h-12 rounded-full object-cover">
+                    <div>
+                        <p class="font-semibold text-slate-900">Rahul Mehta</p>
+                        <p class="text-sm text-slate-500">Startup Founder</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 lg:py-32">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="relative rounded-[3rem] overflow-hidden animated-gradient p-12 lg:p-20">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-10 left-10 w-40 h-40 bg-white rounded-full blur-3xl"></div>
+                <div class="absolute bottom-10 right-10 w-60 h-60 bg-white rounded-full blur-3xl"></div>
+            </div>
+
+            <div class="relative text-center max-w-3xl mx-auto">
+                <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
+                    Ready to transform your events?
+                </h2>
+                <p class="text-xl text-white/80 mb-10">
+                    Join thousands of organizers who trust Eventify to deliver exceptional event experiences.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/auth/register/" class="px-8 py-4 rounded-2xl bg-white text-slate-900 font-semibold text-lg hover:bg-slate-100 transition-colors inline-flex items-center justify-center gap-2">
+                        Get Started Free
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="/auth/login/" class="px-8 py-4 rounded-2xl bg-white/10 border-2 border-white/30 text-white font-semibold text-lg hover:bg-white/20 transition-colors inline-flex items-center justify-center gap-2">
+                        <i data-lucide="play-circle" class="w-5 h-5"></i>
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

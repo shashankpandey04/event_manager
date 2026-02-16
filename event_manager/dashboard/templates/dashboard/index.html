@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-[90vh] bg-slate-50 py-10 px-4">
+<div class="max-w-6xl mx-auto space-y-10">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-semibold text-slate-900">
+                Welcome back,
+                <span class="text-indigo-600">
+                    {{ request.user.fullName|default:request.user.username }}
+                </span>
+            </h1>
+            <p class="text-slate-500 mt-1 text-sm">
+                Here's what's happening with your events today.
+            </p>
+        </div>
+
+        <span class="px-3 py-1 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-semibold">
+            {{ request.user.role|title }}
+        </span>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-500">Attendance</p>
+                <i data-lucide="check-circle" class="w-5 h-5 text-indigo-500"></i>
+            </div>
+            <p class="text-3xl font-bold text-slate-900 mt-3">
+                {{ attendance_count }}
+            </p>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-500">Registrations</p>
+                <i data-lucide="users" class="w-5 h-5 text-emerald-500"></i>
+            </div>
+            <p class="text-3xl font-bold text-slate-900 mt-3">
+                {{ myRegistrations.count }}
+            </p>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-500">Events Visible</p>
+                <i data-lucide="calendar" class="w-5 h-5 text-amber-500"></i>
+            </div>
+            <p class="text-3xl font-bold text-slate-900 mt-3">
+                {{ events.count }}
+            </p>
+        </div>
+
+    </div>
+
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm">
+        <div class="px-6 py-4 border-b border-slate-200 flex items-center gap-2">
+            <i data-lucide="calendar-days" class="w-5 h-5 text-indigo-500"></i>
+            <h2 class="font-semibold text-slate-900">Events</h2>
+        </div>
+
+        {% if events %}
+        <div class="divide-y divide-slate-100">
+            {% for event in events %}
+            <div class="p-6 hover:bg-slate-50 transition flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
+                <div>
+                    <p class="font-semibold text-slate-900">
+                        {{ event.title }}
+                    </p>
+                    <div class="text-sm text-slate-500 mt-1 flex flex-wrap gap-4">
+                        <span>{{ event.location }}</span>
+                        <span>{{ event.startTime|date:"M d, Y • H:i" }}</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 text-sm">
+                    <span class="text-slate-600">
+                        Reg <span class="font-semibold text-slate-900">
+                        {{ event.registrations.count }}</span>
+                    </span>
+
+                    <span class="text-slate-600">
+                        Att <span class="font-semibold text-slate-900">
+                        {{ event.attendances.count }}</span>
+                    </span>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="p-6 text-sm text-slate-500">No events available.</p>
+        {% endif %}
+    </div>
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm">
+        <div class="px-6 py-4 border-b border-slate-200 flex items-center gap-2">
+            <i data-lucide="bookmark" class="w-5 h-5 text-emerald-500"></i>
+            <h2 class="font-semibold text-slate-900">My Registrations</h2>
+        </div>
+
+        {% if myRegistrations %}
+        <ul class="divide-y divide-slate-100">
+            {% for reg in myRegistrations %}
+            <li class="px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition">
+
+                <span class="font-medium text-slate-800">
+                    {{ reg.event.title }}
+                </span>
+
+                <span class="text-xs font-semibold px-3 py-1 rounded-md
+                {% if reg.status == 'approved' %}
+                    bg-green-100 text-green-700
+                {% elif reg.status == 'pending' %}
+                    bg-yellow-100 text-yellow-700
+                {% elif reg.status == 'rejected' %}
+                    bg-red-100 text-red-700
+                {% else %}
+                    bg-slate-100 text-slate-700
+                {% endif %}">
+                    {{ reg.status|title }}
+                </span>
+
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="p-6 text-sm text-slate-500">
+            You haven't registered for any events yet.
+        </p>
+        {% endif %}
+    </div>
+
+</div>
+</section>
+{% endblock %}
