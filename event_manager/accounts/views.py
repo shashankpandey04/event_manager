@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import User
-
+from accounts.utils.email import send_welcome_mail
 
 def register_view(request):
 
@@ -41,6 +41,8 @@ def register_view(request):
         user.dateOfBirth = dob
         user.role = role
         user.save()
+
+        # send_welcome_mail(user)
 
         login(request, user)
 

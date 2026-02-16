@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Eventify</title>
+</head>
+
+<body style="margin:0;padding:0;background-color:#F5F7FA;font-family:Arial,Helvetica,sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#F5F7FA">
+<tr>
+<td align="center">
+
+<!-- Main Container -->
+<table width="600" cellpadding="0" cellspacing="0"
+style="background:#ffffff;margin:40px 0;border-radius:8px;overflow:hidden;">
+
+    <!-- Header -->
+    <tr>
+        <td style="background:#111827;padding:24px;text-align:center;">
+            <span style="color:#ffffff;font-size:22px;font-weight:600;letter-spacing:0.5px;">
+                Eventify
+            </span>
+        </td>
+    </tr>
+
+    <!-- Content -->
+    <tr>
+        <td style="padding:40px 36px;color:#1F2937;">
+
+            <h2 style="margin:0 0 18px 0;font-weight:600;">
+                Welcome to Eventify, {{ user_name }} 👋
+            </h2>
+
+            <p style="font-size:15px;line-height:1.7;color:#4B5563;margin:0 0 16px;">
+                Your account has been successfully created and you’re now ready
+                to start using <strong>Eventify</strong>.
+            </p>
+
+            <p style="font-size:15px;line-height:1.7;color:#4B5563;margin:0 0 24px;">
+                Discover events, register seamlessly, and track your attendance —
+                all from one centralized dashboard designed to make event
+                participation simple and efficient.
+            </p>
+
+            <!-- CTA Button -->
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin:30px 0;">
+                <tr>
+                    <td align="center">
+                        <a href="{{ dashboard_link }}"
+                           style="
+                           background:#111827;
+                           color:#ffffff;
+                           text-decoration:none;
+                           padding:14px 32px;
+                           border-radius:6px;
+                           font-size:14px;
+                           font-weight:600;
+                           display:inline-block;">
+                           Open Dashboard
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Info Box -->
+            <table width="100%" cellpadding="0" cellspacing="0"
+                   style="background:#F9FAFB;border-radius:6px;margin-top:20px;">
+                <tr>
+                    <td style="padding:16px;font-size:14px;color:#374151;">
+                        ✔ Register for upcoming events<br>
+                        ✔ Track your attendance history<br>
+                        ✔ Manage your event participation
+                    </td>
+                </tr>
+            </table>
+
+            <p style="font-size:14px;color:#6B7280;margin-top:28px;">
+                If you did not create this account, you can safely ignore this email.
+            </p>
+
+            <hr style="border:none;border-top:1px solid #E5E7EB;margin:32px 0;">
+
+            <p style="font-size:14px;color:#374151;margin:0;">
+                Regards,<br>
+                <strong>Eventify Team</strong>
+            </p>
+
+        </td>
+    </tr>
+
+    <!-- Footer -->
+    <tr>
+        <td style="background:#F9FAFB;text-align:center;padding:20px;">
+            <p style="margin:0;font-size:12px;color:#9CA3AF;">
+                © {{ current_year }} Eventify. All rights reserved.
+            </p>
+        </td>
+    </tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
