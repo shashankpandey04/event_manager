@@ -17,17 +17,6 @@
 
         <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-8">
 
-            {% if messages %}
-            <div class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-                {% for message in messages %}
-                <p class="text-sm text-red-600 flex items-center gap-2">
-                    <i data-lucide="alert-circle" class="w-4 h-4"></i>
-                    {{ message }}
-                </p>
-                {% endfor %}
-            </div>
-            {% endif %}
-
             <form method="post" class="space-y-5">
                 {% csrf_token %}
 

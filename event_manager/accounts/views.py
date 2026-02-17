@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -72,3 +72,37 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+
+@login_required(login_url="/auth/login")
+def manage_users(request):
+    if request.user.role != "organizer":
+        messages.error(request, "You do not have permission to manage users.")
+        return redirect("dashboard")
+    users = User.objects.all()
+    return render(request, "accounts/manage_users.html", {"users": users})
+
+@login_required(login_url="/auth/login")
+def delete_user(request, user_id):
+    if request.user.role != "organizer":
+        messages.error(request, "You do not have permission to delete users.")
+        return redirect("dashboard")
+    user = get_object_or_404(User, id=user_id)
+    user.delete()
+    messages.success(request, "User deleted successfully!")
+    return redirect("manage_users")
+
+@login_required(login_url="/auth/login")
+def edit_user(request, user_id):
+    if request.user.role != "organizer":
+        messages.error(request, "You do not have permission to edit users.")
+        return redirect("dashboard")
+    user = get_object_or_404(User, id=user_id)
+    if request.method == "POST":
+        user.fullName = request.POST.get("fullName")
+        user.phoneNumber = request.POST.get("phoneNumber")
+        user.dateOfBirth = request.POST.get("dateOfBirth")
+        user.role = request.POST.get("role", "participant")
+        user.save()
+        messages.success(request, "User updated successfully!")
+        return redirect("manage_users")
+    return render(request, "accounts/edit_user.html", {"user": user})
