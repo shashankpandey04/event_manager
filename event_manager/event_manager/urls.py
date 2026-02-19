@@ -16,8 +16,6 @@ Including another URLconf
 """
 from django.shortcuts import render
 from django.urls import include, path
-#admin route 
-from django.contrib import admin
 
 def home(request):
     return render(request, 'landing/index.html')
@@ -28,5 +26,5 @@ urlpatterns = [
     path('', include('dashboard.urls')),
     path('', include('events.urls')),
     path('', include('registrations.urls')),
-    path('admin/', admin.site.urls),
+    path('', include('admin.urls')),
 ]
