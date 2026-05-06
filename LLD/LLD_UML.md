@@ -315,7 +315,7 @@ sequenceDiagram
 sequenceDiagram
     participant Participant
     participant Volunteer
-    participant App as Event App
+        EventUser->>App
     participant QR as QR Utils
     participant DB as Database
     
@@ -386,66 +386,67 @@ erDiagram
         bool attendanceEnabled
         datetime createdAt
         datetime updatedAt
-    }
+            participant EventUser
     
     REGISTRATION {
         int id PK
         int user_id FK
-        int event_id FK
-        string status
-        datetime registeredAt
-        datetime updatedAt
-    }
-    
-    ATTENDANCE {
-        int id PK
-        int user_id FK
-        int event_id FK
-        int registration_id FK
-        datetime checkInTime
-        datetime checkOutTime
-        int checkedInBy_id FK
-        datetime createdAt
-        datetime updatedAt
-    }
-    
-    EVENT_VOLUNTEERS {
-        int id PK
-        int event_id FK
+            EventUser->>App: Browse Events
+            App->>DB: Query Published Events
+            DB->>App: Return Event List
+            App->>EventUser: Show Events
+            EventUser->>App: Click Register
+            App->>DB: Check Capacity
+            DB->>App: Return Capacity Status
+            alt Event Full
+                App->>EventUser: Show Error: Event Full
+            else Capacity Available
+                EventUser->>App: Confirm Registration
+                App->>DB: Create Registration Record
+                DB->>App: Success
+                App->>Organizer: Notify New Registration
+                App->>EventUser: Show Pending Status
+                Organizer->>App: Review Registrations
+                Organizer->>App: Approve Registration
+                App->>DB: Update Status to Approved
+                DB->>App: Success
+                App->>EventUser: Send Approval Notification
+                EventUser->>EventUser: Can Now Attend Event
         int user_id FK
     }
 ```
-
 ## 10. State Diagram - Event Lifecycle
+        ## 8. Sequence Diagram - QR Code Check-in Process
 
-```mermaid
-stateDiagram-v2
-    [*] --> Draft: Create Event
+        ```mermaid
+        sequenceDiagram
+            participant EventUser
+            participant Volunteer
+            participant App as Event App
+            participant QR as QR Utils
+            participant DB as Database
     
-    Draft --> Published: Publish Event
-    Draft --> Cancelled: Cancel Event
-    
-    Published --> Expired: Event Date Passed
-    Published --> Cancelled: Cancel Event
-    
-    Cancelled --> [*]: Event Removed
-    Expired --> [*]: Event Archived
-    
-    note right of Draft
-        Event created but not visible
-        to users. Can be configured.
-    end note
-    
-    note right of Published
-        Event visible to users.
-        Registrations are accepted.
-    end note
-    
-    note right of Cancelled
-        Event cancelled. Users
-        are notified. Registrations
-        are cancelled.
-    end note
+            EventUser->>App: Receive QR Code
+            EventUser->>Volunteer: Arrive at Event
+            Volunteer->>App: Open QR Scanner
+            EventUser->>App: Show QR Code
+            App->>App: Scan QR Code
+            App->>QR: verify_qr_token method
+            QR->>QR: Parse Token
+            QR->>QR: Regenerate HMAC Signature
+            QR->>QR: Compare Signatures
+            alt Valid Token
+                QR->>App: Return user_id
+                App->>DB: Create Attendance Record
+                DB->>DB: Set checkInTime
+                DB->>DB: Set checkedInBy
+                DB->>App: Success
+                App->>Volunteer: Check-in Successful
+                Volunteer->>EventUser: Welcome to Event!
+            else Invalid Token
+                QR->>App: Return None
+                App->>Volunteer: Invalid QR Code
+                Volunteer->>EventUser: Please Try Again
     
     note right of Expired
         Event date has passed.
