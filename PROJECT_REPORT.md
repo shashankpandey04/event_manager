@@ -6,7 +6,7 @@
 
 **Type:** Django-based Event Management System
 
-**Repository:** [event_manager](README.md)
+**Repository:** event_manager
 
 **Prepared For:** Academic / Project Submission
 
@@ -19,6 +19,113 @@
 ## Introduction
 
 Event Manager is a Django web application for creating, managing, registering for, and tracking events. It supports role-based access for admins, organizers, volunteers, and participants. The system also includes QR-based attendance tracking, event volunteer assignment, and user dashboards. The project is built with Django, MySQL, and a custom user model to support event workflows end to end.
+
+## Project Overview
+
+Event Manager is a comprehensive event management platform designed to reduce the manual effort involved in planning and running events. It centralizes event creation, registrations, approvals, volunteer assignment, attendance tracking, and dashboard reporting in one Django application.
+
+### Key Features
+
+- Event management with create, edit, publish, and delete actions
+- User accounts with secure registration and login
+- QR-based attendance tracking for event check-in
+- Event registration and approval workflow
+- Admin dashboard for oversight and administration
+- User dashboard for participants, organizers, and volunteers
+- Volunteer assignment and management per event
+- Role-based access control across the application
+
+### Technologies Used
+
+- Django 6.0.2
+- MySQL via `mysqlclient`
+- Python 3.x
+- `python-dotenv` for environment configuration
+- Django templates for server-rendered pages
+
+### Project Structure
+
+The application is organized into separate Django apps:
+
+- `accounts` for registration, login, and profile management
+- `admin_panel` for administrative views
+- `attendance` for QR scanning and attendance records
+- `dashboard` for user-facing summaries
+- `events` for event creation and lifecycle management
+- `registrations` for event registration workflows
+- `event_manager` for the main Django project settings and URLs
+
+### Installation Summary
+
+To run the application locally:
+
+1. Create and activate a virtual environment.
+2. Install dependencies from `requirements.txt`.
+3. Copy the environment template to `.env` and update the values.
+4. Run migrations.
+5. Create a superuser if required.
+6. Start the development server with `python manage.py runserver`.
+
+### Usage Summary
+
+- Main site: `http://localhost:8000/`
+- Admin panel: `http://localhost:8000/admin/`
+- Admins can manage users, events, and registrations.
+- Organizers can create events, manage volunteers, and review registrations.
+- Volunteers can help check in attendees.
+- Participants can browse events, register, and view attendance history.
+
+### Configuration Summary
+
+The core environment settings include:
+
+- `SECRET_KEY`
+- `DEBUG`
+- `ALLOWED_HOSTS`
+- `DATABASE_NAME`
+- `DATABASE_USER`
+- `DATABASE_PASSWORD`
+- `DATABASE_HOST`
+- `DATABASE_PORT`
+
+### Development Notes
+
+- Use `python manage.py test` to run the built-in Django test runner.
+- Use `makemigrations`, `migrate`, and `showmigrations` during development.
+- The admin interface is available at `/admin/`.
+
+### Feature Details
+
+#### QR Code Attendance System
+
+- Generates a unique signed QR token for each user
+- Verifies the token before creating attendance records
+- Prevents duplicate check-ins per user and event
+- Records check-in and check-out timestamps
+
+#### Event Management
+
+- Supports draft, published, cancelled, and expired states
+- Allows organizers to manage event details and volunteers
+- Tracks event capacity and registration deadlines
+
+#### User Registration
+
+- Supports event-based registration
+- Tracks pending, approved, rejected, and cancelled states
+- Maintains history of registrations and attendance
+
+### Troubleshooting Summary
+
+- Check MySQL if the database connection fails.
+- Verify environment variables if configuration errors appear.
+- Run the server on a different port if the default port is busy.
+
+### Contributing
+
+1. Create a feature branch.
+2. Make and test your changes.
+3. Submit a pull request.
 
 ## Problem Statement
 
@@ -106,8 +213,6 @@ The project includes a dedicated test suite under [tests/](tests) and a written 
 
 ## User Manual
 
-The usage instructions are already documented in [README.md](README.md). In short:
-
 1. Set up the virtual environment.
 2. Install the dependencies.
 3. Configure the environment variables.
@@ -134,6 +239,5 @@ For the full project structure, see [README.md](README.md).
 
 - Django documentation: https://docs.djangoproject.com/
 - Pytest documentation: https://docs.pytest.org/
-- Project overview: [README.md](README.md)
 - Design documentation: [HLD.md](HLD.md), [LLD.md](LLD.md), [LLD_DIA.md](LLD_DIA.md), [LLD_UML.md](LLD_UML.md)
 - Test documentation: [tests.md](tests.md)
