@@ -377,13 +377,13 @@ graph TD
 ```mermaid
 graph TD
     A["User Submits Form"] -->|Validated Data| B["Create Model Instance"]
-    B -->|user = User(...)|  C["In-Memory Object"]
-    C -->|Call save()| D["Pre-save Signal"]
+    B -->|Create object| C["In-Memory Object"]
+    C -->|Call save method| D["Pre-save Signal"]
     D -->|Validation| E{"All Valid?"}
     E -->|No| F["Raise ValidationError"]
     F -->|Display to User| G["Show Errors"]
     E -->|Yes| H["Generate SQL"]
-    H -->|INSERT/UPDATE| I["Django ORM"]
+    H -->|INSERT or UPDATE| I["Django ORM"]
     I -->|Transaction| J["MySQL Database"]
     J -->|Lock Table| K["Write Data"]
     K -->|Commit| L["Auto-increment ID"]
