@@ -72,7 +72,7 @@ def logout_view(request):
 
 @login_required(login_url="/auth/login")
 def manage_users(request):
-    if request.user.role != "organizer":
+    if request.user.role not in ("organizer", "admin"):
         messages.error(request, "You do not have permission to manage users.")
         return redirect("dashboard")
     users = User.objects.all()
@@ -80,7 +80,7 @@ def manage_users(request):
 
 @login_required(login_url="/auth/login")
 def delete_user(request, user_id):
-    if request.user.role != "organizer":
+    if request.user.role not in ("organizer", "admin"):
         messages.error(request, "You do not have permission to delete users.")
         return redirect("dashboard")
     user = get_object_or_404(User, id=user_id)
@@ -90,7 +90,7 @@ def delete_user(request, user_id):
 
 @login_required(login_url="/auth/login")
 def edit_user(request, user_id):
-    if request.user.role != "organizer":
+    if request.user.role not in ("organizer", "admin"):
         messages.error(request, "You do not have permission to edit users.")
         return redirect("dashboard")
     user = get_object_or_404(User, id=user_id)

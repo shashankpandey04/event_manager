@@ -26,5 +26,6 @@ urlpatterns = [
     path('', include('dashboard.urls')),
     path('', include('events.urls')),
     path('', include('registrations.urls')),
-    path('', include('admin.urls')),
+    path('', include('attendance.urls')),
+    path('', include('admin_panel.urls')),
 ]

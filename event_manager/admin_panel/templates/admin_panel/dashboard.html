@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | Eventify{% endblock %}
+
+{% block content %}
+<section class="min-h-[90vh] bg-slate-50 py-10 px-4">
+    <div class="max-w-6xl mx-auto space-y-10">
+
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-semibold text-slate-900">
+                    Admin <span class="text-indigo-600">Dashboard</span>
+                </h1>
+                <p class="text-slate-500 mt-1 text-sm">
+                    Manage events, users, and registrations from here.
+                </p>
+            </div>
+            <span class="px-3 py-1 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-semibold">
+                Organizer
+            </span>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <a href="/events/" class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition card-hover block">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-medium text-slate-500">Manage Events</p>
+                    <i data-lucide="calendar" class="w-5 h-5 text-indigo-500"></i>
+                </div>
+                <p class="text-slate-700 text-sm">Create, edit, and delete events.</p>
+            </a>
+
+            <a href="/registrations/" class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition card-hover block">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-medium text-slate-500">Registrations</p>
+                    <i data-lucide="users" class="w-5 h-5 text-emerald-500"></i>
+                </div>
+                <p class="text-slate-700 text-sm">Review and approve registrations.</p>
+            </a>
+
+            <a href="/attendance/" class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition card-hover block">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-medium text-slate-500">Attendance</p>
+                    <i data-lucide="check-circle" class="w-5 h-5 text-amber-500"></i>
+                </div>
+                <p class="text-slate-700 text-sm">Track and manage event attendance.</p>
+            </a>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

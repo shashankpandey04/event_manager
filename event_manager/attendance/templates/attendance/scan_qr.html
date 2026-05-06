@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% block title %}Scan QR — {{ event.title }} | Eventify{% endblock %}
+{% block content %}
+<section class="max-w-2xl mx-auto py-12 px-4">
+
+    <div class="mb-6">
+        <a href="/attendance/{{ event.id }}/" class="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 mb-3">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to attendance list
+        </a>
+        <h1 class="font-display text-3xl font-bold text-slate-900">Scan QR Code</h1>
+        <p class="text-slate-500 mt-1 text-sm">{{ event.title }} &bull; {{ event.startTime|date:"M d, Y H:i" }}</p>
+    </div>
+
+    <!-- Result banner -->
+    <div id="result-banner" class="hidden mb-4 px-5 py-4 rounded-xl font-medium text-sm flex items-center gap-3"></div>
+
+    <!-- Scanner -->
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden mb-6">
+        <div class="px-6 pt-6 pb-2 flex items-center justify-between">
+            <h2 class="font-semibold text-slate-900 flex items-center gap-2">
+                <i data-lucide="scan-line" class="w-5 h-5 text-indigo-500"></i>
+                Camera Scanner
+            </h2>
+            <div class="flex gap-2">
+                <button id="btn-start"
+                        class="px-4 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 transition">
+                    Start Camera
+                </button>
+                <button id="btn-stop"
+                        class="hidden px-4 py-1.5 rounded-lg bg-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-300 transition">
+                    Stop
+                </button>
+            </div>
+        </div>
+
+        <!-- html5-qrcode mounts here -->
+        <div id="qr-reader" class="w-full px-6 pb-4"></div>
+
+        <div class="px-6 py-3 border-t border-slate-100 flex items-center justify-between">
+            <p id="scan-status" class="text-sm text-slate-500">Press "Start Camera" to begin scanning</p>
+            <span id="scan-indicator" class="w-3 h-3 rounded-full bg-slate-300"></span>
+        </div>
+    </div>
+
+    <!-- Manual entry -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mb-6">
+        <h3 class="font-semibold text-slate-900 mb-3 flex items-center gap-2">
+            <i data-lucide="keyboard" class="w-4 h-4 text-slate-500"></i>
+            Manual Token Entry
+        </h3>
+        <form id="manual-form" class="flex gap-3">
+            {% csrf_token %}
+            <input type="text" id="manual-token" placeholder="Paste QR token here..."
+                   class="flex-1 border border-slate-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+            <button type="submit"
+                    class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
+                Check In
+            </button>
+        </form>
+    </div>
+
+    <!-- Recent scans log -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <h3 class="font-semibold text-slate-900 mb-4 flex items-center gap-2">
+            <i data-lucide="history" class="w-4 h-4 text-slate-500"></i>
+            Recent Scans
+            <span id="scan-count" class="ml-auto text-xs font-normal text-slate-400">0 scans</span>
+        </h3>
+        <ul id="scan-log" class="space-y-2 text-sm">
+            <li id="log-placeholder" class="text-slate-400 italic">No scans yet</li>
+        </ul>
+    </div>
+
+</section>
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+    const PROCESS_URL = "/attendance/{{ event.id }}/scan/process/";
+    const CSRF = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    const statusEl   = document.getElementById('scan-status');
+    const indicator  = document.getElementById('scan-indicator');
+    const bannerEl   = document.getElementById('result-banner');
+    const scanLog    = document.getElementById('scan-log');
+    const scanCount  = document.getElementById('scan-count');
+    const btnStart   = document.getElementById('btn-start');
+    const btnStop    = document.getElementById('btn-stop');
+
+    let scanTotal = 0;
+    let cooldown  = false;
+    let html5QrCode = null;
+
+    // ── Scanner ──────────────────────────────────────────────────────────────
+    function onScanSuccess(decodedText) {
+        if (cooldown) return;
+        cooldown = true;
+        submitToken(decodedText);
+    }
+
+    function onScanFailure() { /* silent — fires on every frame without a code */ }
+
+    btnStart.addEventListener('click', () => {
+        html5QrCode = new Html5Qrcode("qr-reader");
+
+        Html5Qrcode.getCameras().then(cameras => {
+            if (!cameras || cameras.length === 0) {
+                showBanner('error', 'No camera found on this device.');
+                return;
+            }
+            // Prefer rear camera
+            const cam = cameras.find(c => /back|rear|environment/i.test(c.label)) || cameras[cameras.length - 1];
+
+            html5QrCode.start(
+                cam.id,
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                onScanSuccess,
+                onScanFailure
+            ).then(() => {
+                btnStart.classList.add('hidden');
+                btnStop.classList.remove('hidden');
+                statusEl.textContent = 'Scanning — point at a participant\'s QR code';
+                indicator.className = 'w-3 h-3 rounded-full bg-green-400 animate-pulse';
+            }).catch(err => {
+                showBanner('error', 'Could not start camera: ' + err);
+            });
+        }).catch(() => {
+            showBanner('error', 'Camera permission denied or not available.');
+        });
+    });
+
+    btnStop.addEventListener('click', () => {
+        if (html5QrCode) {
+            html5QrCode.stop().then(() => {
+                html5QrCode.clear();
+                btnStop.classList.add('hidden');
+                btnStart.classList.remove('hidden');
+                statusEl.textContent = 'Camera stopped';
+                indicator.className = 'w-3 h-3 rounded-full bg-slate-300';
+            });
+        }
+    });
+
+    // ── Manual form ──────────────────────────────────────────────────────────
+    document.getElementById('manual-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const token = document.getElementById('manual-token').value.trim();
+        if (token) submitToken(token);
+    });
+
+    // ── Submit token to server ───────────────────────────────────────────────
+    function submitToken(token) {
+        statusEl.textContent = 'Processing…';
+
+        fetch(PROCESS_URL, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': CSRF,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'token=' + encodeURIComponent(token)
+        })
+        .then(r => r.json())
+        .then(data => {
+            showBanner(data.status, data.message);
+            addToLog(data.status, data.message);
+            document.getElementById('manual-token').value = '';
+            setTimeout(() => {
+                cooldown = false;
+                statusEl.textContent = 'Ready — point camera at next QR code';
+            }, 2500);
+        })
+        .catch(() => {
+            showBanner('error', 'Network error. Please try again.');
+            cooldown = false;
+        });
+    }
+
+    // ── UI helpers ───────────────────────────────────────────────────────────
+    function showBanner(status, message) {
+        const styles = {
+            success: 'bg-green-50 text-green-800 border border-green-200',
+            already: 'bg-yellow-50 text-yellow-800 border border-yellow-200',
+            error:   'bg-red-50   text-red-800   border border-red-200',
+        };
+        const icons = {
+            success: 'check-circle',
+            already: 'alert-circle',
+            error:   'x-circle',
+        };
+        const s = styles[status] || styles.error;
+        const ic = icons[status]  || icons.error;
+        bannerEl.className = `mb-4 px-5 py-4 rounded-xl font-medium text-sm flex items-center gap-3 ${s}`;
+        bannerEl.innerHTML = `<i data-lucide="${ic}" class="w-5 h-5 shrink-0"></i>${message}`;
+        bannerEl.classList.remove('hidden');
+        lucide.createIcons();
+
+        // Auto-hide after 4 s
+        clearTimeout(bannerEl._timer);
+        bannerEl._timer = setTimeout(() => bannerEl.classList.add('hidden'), 4000);
+    }
+
+    function addToLog(status, message) {
+        document.getElementById('log-placeholder')?.remove();
+        scanTotal++;
+        scanCount.textContent = `${scanTotal} scan${scanTotal !== 1 ? 's' : ''}`;
+
+        const dot = { success: 'bg-green-400', already: 'bg-yellow-400', error: 'bg-red-400' }[status] || 'bg-slate-400';
+        const time = new Date().toLocaleTimeString();
+        const li = document.createElement('li');
+        li.className = 'flex items-center gap-2 py-1';
+        li.innerHTML = `
+            <span class="w-2 h-2 rounded-full ${dot} shrink-0"></span>
+            <span class="flex-1 text-slate-700">${message}</span>
+            <span class="text-slate-400 text-xs shrink-0">${time}</span>`;
+        scanLog.prepend(li);
+    }
+</script>
+{% endblock %}

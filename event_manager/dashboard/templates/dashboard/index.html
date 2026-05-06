@@ -16,9 +16,17 @@
             </p>
         </div>
 
-        <span class="px-3 py-1 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-semibold">
-            {{ request.user.role|title }}
-        </span>
+        <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-semibold">
+                {{ request.user.role|title }}
+            </span>
+            {% if request.user.role == 'organizer' or request.user.role == 'admin' %}
+            <a href="/admin/" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition-all hover:shadow-lg">
+                <i data-lucide="shield" class="w-4 h-4"></i>
+                Admin Panel
+            </a>
+            {% endif %}
+        </div>
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
@@ -28,9 +36,7 @@
                 <p class="text-sm text-slate-500">Attendance</p>
                 <i data-lucide="check-circle" class="w-5 h-5 text-indigo-500"></i>
             </div>
-            <p class="text-3xl font-bold text-slate-900 mt-3">
-                {{ attendance_count }}
-            </p>
+            <p class="text-3xl font-bold text-slate-900 mt-3">{{ attendance_count }}</p>
         </div>
 
         <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
@@ -38,9 +44,7 @@
                 <p class="text-sm text-slate-500">Registrations</p>
                 <i data-lucide="users" class="w-5 h-5 text-emerald-500"></i>
             </div>
-            <p class="text-3xl font-bold text-slate-900 mt-3">
-                {{ myRegistrations.count }}
-            </p>
+            <p class="text-3xl font-bold text-slate-900 mt-3">{{ myRegistrations.count }}</p>
         </div>
 
         <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
@@ -48,11 +52,50 @@
                 <p class="text-sm text-slate-500">Events Visible</p>
                 <i data-lucide="calendar" class="w-5 h-5 text-amber-500"></i>
             </div>
-            <p class="text-3xl font-bold text-slate-900 mt-3">
-                {{ events.count }}
-            </p>
+            <p class="text-3xl font-bold text-slate-900 mt-3">{{ events.count }}</p>
         </div>
 
+    </div>
+
+    <!-- QR Code Card -->
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+        <div class="flex flex-col md:flex-row md:items-center gap-6">
+            <div class="shrink-0">
+                <img src="{{ qr_url }}" alt="Your attendance QR code"
+                     class="w-40 h-40 rounded-xl border border-slate-200 shadow-sm" />
+            </div>
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <i data-lucide="qr-code" class="w-5 h-5 text-indigo-500"></i>
+                    <h2 class="font-semibold text-slate-900">Your Attendance QR Code</h2>
+                </div>
+                <p class="text-sm text-slate-500 mb-3">
+                    Show this QR code to a volunteer at the event entrance to mark your attendance.
+                    This code is unique to your account.
+                </p>
+                <button onclick="document.getElementById('qr-modal').classList.remove('hidden')"
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-50 text-indigo-700 text-sm font-medium hover:bg-indigo-100 transition">
+                    <i data-lucide="maximize-2" class="w-4 h-4"></i>
+                    Show Full Size
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Full-size Modal -->
+    <div id="qr-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+        <div class="bg-white rounded-2xl p-8 shadow-2xl text-center max-w-sm w-full">
+            <h3 class="font-display text-xl font-bold text-slate-900 mb-1">
+                {{ request.user.fullName|default:request.user.username }}
+            </h3>
+            <p class="text-sm text-slate-500 mb-5">Show this to the volunteer at the entrance</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&data={{ qr_token }}"
+                 alt="QR Code" class="mx-auto rounded-xl border border-slate-200" />
+            <button onclick="document.getElementById('qr-modal').classList.add('hidden')"
+                    class="mt-6 w-full py-2.5 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-800 transition">
+                Close
+            </button>
+        </div>
     </div>
 
     <div class="bg-white border border-slate-200 rounded-2xl shadow-sm">

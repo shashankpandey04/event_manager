@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'dashboard',
     'attendance',
     'accounts',
-    'events'
+    'events',
+    'admin_panel',
 ]
 
 MIDDLEWARE = [

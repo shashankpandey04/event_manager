@@ -2,16 +2,60 @@
 {% block title %}Events | Eventify{% endblock %}
 {% block content %}
 <section class="max-w-5xl mx-auto py-12 px-4">
+
+    {% if volunteer_events %}
+    <div class="mb-10">
+        <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="scan-line" class="w-5 h-5 text-emerald-600"></i>
+            <h2 class="font-display text-xl font-bold text-slate-900">Your Assigned Events — Attendance</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+            {% for event in volunteer_events %}
+            <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 flex items-center justify-between gap-4">
+                <div>
+                    <p class="font-semibold text-slate-900">{{ event.title }}</p>
+                    <p class="text-sm text-slate-500 mt-0.5">{{ event.startTime|date:"M d, Y • H:i" }}</p>
+                    <p class="text-xs text-slate-400 mt-0.5">{{ event.attendances.count }} checked in so far</p>
+                </div>
+                <div class="flex flex-col gap-2 shrink-0">
+                    <a href="/attendance/{{ event.id }}/scan/"
+                       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition">
+                        <i data-lucide="scan-line" class="w-3.5 h-3.5"></i> Scan QR
+                    </a>
+                    <a href="/attendance/{{ event.id }}/"
+                       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 border border-slate-200 transition">
+                        <i data-lucide="list" class="w-3.5 h-3.5"></i> View List
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     <div class="mb-10 flex items-center justify-between">
         <h1 class="font-display text-3xl font-bold text-slate-900">All Events</h1>
-        {% if request.user.is_authenticated and request.user.role == 'organizer' %}
-            <a href="/events/create/" class="text-indigo-600 hover:text-indigo-800 font-semibold">+ Create Event</a>
+        {% if request.user.is_authenticated and request.user.role == 'organizer' or request.user.role == 'admin' %}
+            <a href="/events/create/" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
+                <i data-lucide="plus" class="w-4 h-4"></i> Create Event
+            </a>
         {% endif %}
     </div>
     <div class="grid md:grid-cols-2 gap-8">
         {% for event in events %}
         <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-            <h2 class="font-display text-xl font-bold text-slate-900 mb-2">{{ event.title }}</h2>
+            <div class="flex items-start justify-between mb-2">
+                <h2 class="font-display text-xl font-bold text-slate-900">{{ event.title }}</h2>
+                {% if event.status != 'published' %}
+                <span class="ml-2 shrink-0 px-2 py-0.5 rounded-md text-xs font-semibold
+                    {% if event.status == 'draft' %}bg-yellow-100 text-yellow-700
+                    {% elif event.status == 'cancelled' %}bg-red-100 text-red-700
+                    {% elif event.status == 'expired' %}bg-slate-100 text-slate-500
+                    {% endif %}">
+                    {{ event.status|title }}
+                </span>
+                {% endif %}
+            </div>
             <p class="text-slate-600 mb-2">{{ event.description|truncatechars:120 }}</p>
             <div class="flex items-center gap-4 text-sm text-slate-500 mb-2">
                 <span><i data-lucide="map-pin" class="w-4 h-4 inline"></i> {{ event.location }}</span>
@@ -19,15 +63,15 @@
             </div>
             <div class="flex items-center gap-4 text-xs text-slate-400 mb-4">
                 <span>Capacity: {{ event.capacity|default:'Unlimited' }}</span>
-                <span>Status: {{ event.status|title }}</span>
             </div>
             <div class="flex gap-3">
-                {% if request.user.is_authenticated and request.user.role == 'organizer' and event.organizer == request.user %}
-                    <a href="/events/{{ event.id }}/edit/" class="text-indigo-600 hover:underline">Edit</a>
-                    <a href="/events/{{ event.id }}/delete/" class="text-red-500 hover:underline">Delete</a>
+                {% if request.user.is_authenticated and event.organizer == request.user %}
+                    <a href="/events/{{ event.id }}/edit/" class="text-indigo-600 hover:underline text-sm font-medium">Edit</a>
+                    <a href="/events/{{ event.id }}/volunteers/" class="text-emerald-600 hover:underline text-sm font-medium">Volunteers</a>
+                    <a href="/events/{{ event.id }}/delete/" class="text-red-500 hover:underline text-sm font-medium">Delete</a>
                 {% endif %}
-                {% if request.user.is_authenticated and request.user.role == 'participant' %}
-                    <a href="/register/{{ event.id }}/" class="text-green-600 hover:underline">Register</a>
+                {% if request.user.is_authenticated and request.user.role == 'participant' and event.status == 'published' %}
+                    <a href="/register/{{ event.id }}/" class="text-green-600 hover:underline text-sm font-medium">Register</a>
                 {% endif %}
             </div>
         </div>
