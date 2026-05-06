@@ -16,10 +16,10 @@ graph LR
     MySQL -->|Result Set| ORM
     ORM -->|Data Objects| Django
     
-    style Client fill:#e1f5ff
-    style Django fill:#fff3e0
-    style ORM fill:#f3e5f5
-    style MySQL fill:#e8f5e9
+    style Client fill:#e1f5ff,color:#000000
+    style Django fill:#fff3e0,color:#000000
+    style ORM fill:#f3e5f5,color:#000000
+    style MySQL fill:#e8f5e9,color:#000000
 ```
 
 ## 2. User Authentication & Registration Flow
@@ -41,13 +41,13 @@ graph TD
     K -->|Set Role| L["Redirect to Dashboard"]
     L -->|Display| M["User Dashboard"]
     
-    style A fill:#e3f2fd
-    style B fill:#e3f2fd
-    style C fill:#fff3e0
-    style E fill:#fff3e0
-    style F fill:#e8f5e9
-    style L fill:#c8e6c9
-    style M fill:#c8e6c9
+    style A fill:#e3f2fd,color:#000000
+    style B fill:#e3f2fd,color:#000000
+    style C fill:#fff3e0,color:#000000
+    style E fill:#fff3e0,color:#000000
+    style F fill:#e8f5e9,color:#000000
+    style L fill:#c8e6c9,color:#000000
+    style M fill:#c8e6c9,color:#000000
 ```
 
 ## 3. Event Creation & Management Workflow
@@ -70,11 +70,11 @@ graph TD
     M -->|Deadline Passed| N["Set Status=Expired"]
     M -->|Cancel Event| O["Set Status=Cancelled"]
     
-    style A fill:#e3f2fd
-    style G fill:#fff3e0
-    style H fill:#e8f5e9
-    style L fill:#c8e6c9
-    style M fill:#c8e6c9
+    style A fill:#e3f2fd,color:#000000
+    style G fill:#fff3e0,color:#000000
+    style H fill:#e8f5e9,color:#000000
+    style L fill:#c8e6c9,color:#000000
+    style M fill:#c8e6c9,color:#000000
 ```
 
 ## 4. Event Registration & Approval Flow
@@ -98,11 +98,11 @@ graph TD
     N -->|Notify User| P["Participant Approved<br/>Can Attend Event"]
     O -->|Notify User| Q["Participant Rejected"]
     
-    style A fill:#e3f2fd
-    style J fill:#fff3e0
-    style K fill:#e8f5e9
-    style P fill:#c8e6c9
-    style Q fill:#ffcdd2
+    style A fill:#e3f2fd,color:#000000
+    style J fill:#fff3e0,color:#000000
+    style K fill:#e8f5e9,color:#000000
+    style P fill:#c8e6c9,color:#000000
+    style Q fill:#ffcdd2,color:#000000
 ```
 
 ## 5. QR Code Generation & Attendance Tracking Flow
@@ -130,14 +130,14 @@ graph TD
     S -->|Set checkOutTime=NOW| T["Calculate Duration"]
     T -->|Save| U["Attendance Complete"]
     
-    style B fill:#fff3e0
-    style C fill:#fff3e0
-    style D fill:#f3e5f5
-    style E fill:#e8f5e9
-    style I fill:#e3f2fd
-    style K fill:#f3e5f5
-    style L fill:#ffe0b2
-    style Q fill:#c8e6c9
+    style B fill:#fff3e0,color:#000000
+    style C fill:#fff3e0,color:#000000
+    style D fill:#f3e5f5,color:#000000
+    style E fill:#e8f5e9,color:#000000
+    style I fill:#e3f2fd,color:#000000
+    style K fill:#f3e5f5,color:#000000
+    style L fill:#ffe0b2,color:#000000
+    style Q fill:#c8e6c9,color:#000000
 ```
 
 ## 6. Database Query Flow - Event Registration
@@ -160,12 +160,12 @@ graph TD
     N -->|registration_id, user_id,<br/>event_id, status=pending| O["Save Complete"]
     O -->|Return to User| P["Confirmation Page"]
     
-    style A fill:#e3f2fd
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
-    style D fill:#e8f5e9
-    style N fill:#e8f5e9
-    style P fill:#c8e6c9
+    style A fill:#e3f2fd,color:#000000
+    style B fill:#fff3e0,color:#000000
+    style C fill:#f3e5f5,color:#000000
+    style D fill:#e8f5e9,color:#000000
+    style N fill:#e8f5e9,color:#000000
+    style P fill:#c8e6c9,color:#000000
 ```
 
 ## 7. Role-Based Access Control Flow
@@ -187,12 +187,12 @@ graph TD
     K -->|No| I
     I -->|Redirect| L["Unauthorized Page"]
     
-    style A fill:#e3f2fd
-    style B fill:#fff3e0
-    style C fill:#ffe0b2
-    style G fill:#c8e6c9
-    style I fill:#ffcdd2
-    style L fill:#ffcdd2
+    style A fill:#e3f2fd,color:#000000
+    style B fill:#fff3e0,color:#000000
+    style C fill:#ffe0b2,color:#000000
+    style G fill:#c8e6c9,color:#000000
+    style I fill:#ffcdd2,color:#000000
+    style L fill:#ffcdd2,color:#000000
 ```
 
 ## 8. Complete Event Lifecycle Flow
@@ -273,11 +273,11 @@ graph TD
     
     U -.->|Scanned By| A
     
-    style U fill:#e3f2fd
-    style E fill:#fff3e0
-    style R fill:#f3e5f5
-    style A fill:#e8f5e9
-    style V fill:#fce4ec
+    style U fill:#e3f2fd,color:#000000
+    style E fill:#fff3e0,color:#000000
+    style R fill:#f3e5f5,color:#000000
+    style A fill:#e8f5e9,color:#000000
+    style V fill:#fce4ec,color:#000000
 ```
 
 ## 11. Module Interaction Flow
@@ -308,12 +308,12 @@ graph TB
     ADMIN -->|Manage| ACC
     ADMIN -->|Manage| EV
     
-    style ACC fill:#e3f2fd
-    style DASH fill:#fff3e0
-    style EV fill:#fff3e0
-    style REG fill:#f3e5f5
-    style ATT fill:#e8f5e9
-    style ADMIN fill:#fce4ec
+    style ACC fill:#e3f2fd,color:#000000
+    style DASH fill:#fff3e0,color:#000000
+    style EV fill:#fff3e0,color:#000000
+    style REG fill:#f3e5f5,color:#000000
+    style ATT fill:#e8f5e9,color:#000000
+    style ADMIN fill:#fce4ec,color:#000000
 ```
 
 ## 12. Request-Response Cycle
@@ -333,12 +333,12 @@ graph LR
     
     F -->|Error Page| K
     
-    style A fill:#e3f2fd
-    style B fill:#fff3e0
-    style C fill:#fff3e0
-    style G fill:#f3e5f5
-    style H fill:#e8f5e9
-    style K fill:#c8e6c9
+    style A fill:#e3f2fd,color:#000000
+    style B fill:#fff3e0,color:#000000
+    style C fill:#fff3e0,color:#000000
+    style G fill:#f3e5f5,color:#000000
+    style H fill:#e8f5e9,color:#000000
+    style K fill:#c8e6c9,color:#000000
 ```
 
 ## 13. Error Handling Flow
@@ -364,12 +364,12 @@ graph TD
     L -->|Redirect| M["User Retries or Cancels"]
     D -->|Success| N["Redirect to Success"]
     
-    style A fill:#e3f2fd
-    style B fill:#fff3e0
-    style D fill:#c8e6c9
-    style E fill:#ffe0b2
-    style L fill:#ffcdd2
-    style N fill:#c8e6c9
+    style A fill:#e3f2fd,color:#000000
+    style B fill:#fff3e0,color:#000000
+    style D fill:#c8e6c9,color:#000000
+    style E fill:#ffe0b2,color:#000000
+    style L fill:#ffcdd2,color:#000000
+    style N fill:#c8e6c9,color:#000000
 ```
 
 ## 14. Database Write Operations Flow
@@ -391,11 +391,11 @@ graph TD
     M -->|Update In-Memory| N["Success Response"]
     N -->|Redirect| O["Confirmation Page"]
     
-    style A fill:#e3f2fd
-    style B fill:#fff3e0
-    style H fill:#f3e5f5
-    style J fill:#e8f5e9
-    style N fill:#c8e6c9
+    style A fill:#e3f2fd,color:#000000
+    style B fill:#fff3e0,color:#000000
+    style C fill:#f3e5f5,color:#000000
+    style J fill:#e8f5e9,color:#000000
+    style N fill:#c8e6c9,color:#000000
 ```
 
 ## 15. QR Token Generation & Verification Algorithm Flow
@@ -426,15 +426,15 @@ graph TD
     T -->|Create Attendance| V["Attendance Record Saved"]
     U -->|Reject| W["Check-in Failed"]
     
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
-    style F fill:#f3e5f5
-    style I fill:#e8f5e9
-    style M fill:#fff3e0
-    style Q fill:#f3e5f5
-    style R fill:#ffe0b2
-    style T fill:#c8e6c9
-    style W fill:#ffcdd2
+    style B fill:#fff3e0,color:#000000
+    style C fill:#f3e5f5,color:#000000
+    style F fill:#f3e5f5,color:#000000
+    style I fill:#e8f5e9,color:#000000
+    style M fill:#fff3e0,color:#000000
+    style Q fill:#f3e5f5,color:#000000
+    style R fill:#ffe0b2,color:#000000
+    style T fill:#c8e6c9,color:#000000
+    style W fill:#ffcdd2,color:#000000
 ```
 
 ## 16. Complete User Journey - End-to-End
@@ -460,10 +460,10 @@ graph TD
     O -->|Event Ends| P["16. Check-out"]
     P -->|View History| Q["17. Dashboard<br/>Attendance Recorded"]
     
-    style A fill:#e3f2fd
-    style F fill:#c8e6c9
-    style I fill:#fff3e0
-    style K fill:#c8e6c9
-    style N fill:#c8e6c9
-    style Q fill:#e8f5e9
+    style A fill:#e3f2fd,color:#000000
+    style F fill:#c8e6c9,color:#000000
+    style I fill:#fff3e0,color:#000000
+    style K fill:#c8e6c9,color:#000000
+    style N fill:#c8e6c9,color:#000000
+    style Q fill:#e8f5e9,color:#000000
 ```
